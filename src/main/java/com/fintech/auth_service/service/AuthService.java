@@ -19,6 +19,10 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     
     public AuthResponse register(RegisterRequest request) {
+        
+        if (userRepository.findByEmail(request.email()).isPresent()) {
+            throw new EmailAlreadyExistsException(request.email());
+        }
 
         User user = new User();
         user.setEmail(request.email());
@@ -40,10 +44,10 @@ public class AuthService {
     public AuthResponse login(LoginRequest request) {
 
         User user = userRepository.findByEmail(request.email())
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+                .orElseThrow(InvalidCredentialsException::new);
 
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new InvalidCredentialsException();
         }
 
         List<String> roles = List.of("ROLE_USER");
