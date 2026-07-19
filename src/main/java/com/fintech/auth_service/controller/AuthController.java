@@ -5,6 +5,14 @@
 
 package com.fintech.auth_service.controller;
 
+import com.fintech.auth_service.dto.AuthResponse;
+import com.fintech.auth_service.dto.LoginRequest;
+import com.fintech.auth_service.dto.RegisterRequest;
+import com.fintech.auth_service.service.AuthService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 

@@ -5,6 +5,9 @@
 
 package com.fintech.auth_service.repository;
 
+import com.fintech.auth_service.entity.User;
+import java.util.Optional;
+import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

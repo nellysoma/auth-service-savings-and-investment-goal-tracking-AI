@@ -5,6 +5,9 @@
 
 package com.fintech.auth_service.security.jwt;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
 /**
  *
  * @author Harmony

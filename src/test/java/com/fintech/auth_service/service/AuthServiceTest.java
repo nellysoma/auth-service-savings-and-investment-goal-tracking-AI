@@ -5,6 +5,25 @@
 
 package com.fintech.auth_service.service;
 
+import com.fintech.auth_service.dto.AuthResponse;
+import com.fintech.auth_service.dto.RegisterRequest;
+import com.fintech.auth_service.entity.User;
+import com.fintech.auth_service.exception.EmailAlreadyExistsException;
+import com.fintech.auth_service.repository.UserRepository;
+import com.fintech.auth_service.security.jwt.JwtTokenProvider;
+import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 /**
  *
  * @author Harmony
@@ -38,7 +57,7 @@ public class AuthServiceTest {
         AuthResponse response = authService.register(request);
 
         assertNotNull(response);
-        assertEquals("jwt-token", response.getAccessToken());
+        assertEquals("jwt-token", response.accessToken());
     }
     
     @Test

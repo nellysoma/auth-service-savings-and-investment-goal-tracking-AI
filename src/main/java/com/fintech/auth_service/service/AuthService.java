@@ -5,6 +5,16 @@
 
 package com.fintech.auth_service.service;
 
+import com.fintech.auth_service.dto.AuthResponse;
+import com.fintech.auth_service.dto.LoginRequest;
+import com.fintech.auth_service.dto.RegisterRequest;
+import com.fintech.auth_service.entity.User;
+import com.fintech.auth_service.exception.EmailAlreadyExistsException;
+import com.fintech.auth_service.exception.InvalidCredentialsException;
+import com.fintech.auth_service.repository.UserRepository;
+import com.fintech.auth_service.security.jwt.JwtTokenProvider;
+import java.util.List;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,6 +27,14 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+    
+    
     
     public AuthResponse register(RegisterRequest request) {
         

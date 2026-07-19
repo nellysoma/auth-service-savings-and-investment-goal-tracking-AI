@@ -5,6 +5,21 @@
 
 package com.fintech.auth_service.controller;
 
+import com.fintech.auth_service.dto.RegisterRequest;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.springframework.transaction.annotation.Transactional;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import tools.jackson.databind.ObjectMapper;
+
+
+
 /**
  *
  * @author Harmony
@@ -23,8 +38,7 @@ public class AuthControllerTest {
     @Test
     void shouldRegisterUser() throws Exception {
 
-        RegisterRequest request =
-                new RegisterRequest("user@test.com", "User", "password");
+        RegisterRequest request = new RegisterRequest("user@test.com", "password", "James_Brown");
 
         mockMvc.perform(post("/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -32,4 +46,26 @@ public class AuthControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken").exists());
     }
+    
+    @Test
+void shouldReturn409WhenEmailAlreadyExists() throws Exception {
+
+    RegisterRequest request =
+            new RegisterRequest(
+                    "user@test.com",
+                    "password",
+                    "James_Brown"
+            );
+
+    mockMvc.perform(post("/auth/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(request)));
+
+    mockMvc.perform(post("/auth/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(request)))
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.status").value(409))
+            .andExpect(jsonPath("$.message").exists());
+}
 }

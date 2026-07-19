@@ -5,6 +5,16 @@
 
 package com.fintech.auth_service.security.jwt;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import java.security.Key;
+import java.util.Date;
+import java.util.List;
+import org.springframework.stereotype.Component;
+
 /**
  *
  * @author Harmony
